@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nermeen's Recipe Book</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>📖 Nermeen's Recipe Book</h1>
+    <div class="file-bar" id="fileBar">
+      <div id="noFileArea" class="no-file-area">
+        <label class="upload-btn" for="fileInput">
+          ⬆ Upload Recipe File (.md)
+        </label>
+        <input type="file" id="fileInput" accept=".md" style="display:none" />
+      </div>
+      <div id="fileInfoArea" class="file-info-area" style="display:none">
+        <span class="filename" id="filenameLabel">📄 recipe_book.md</span>
+        <button class="btn-icon" id="updateBtn" title="Re-parse file">↻ Update</button>
+        <button class="btn-icon danger" id="removeFileBtn" title="Remove file">×</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="tab-content">
+    <div id="tab-index" class="tab-panel active">
+      <div class="empty-state" id="indexEmpty" style="display:none">
+        Upload your recipe file to get started.
+      </div>
+      <div id="indexContent"></div>
+    </div>
+
+    <div id="tab-search" class="tab-panel">
+      <div class="empty-state" id="searchEmpty" style="display:none">
+        Upload your recipe file to get started.
+      </div>
+      <div id="searchContent">
+        <div class="search-box">
+          <input type="text" id="ingredientInput" placeholder="e.g. eggs, chicken, feta..." />
+          <button id="searchBtn">Search</button>
+        </div>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+
+    <div id="tab-recipe" class="tab-panel">
+      <div class="empty-state" id="recipeEmpty">
+        Select a recipe from Index or Search to view it here.
+      </div>
+      <div id="recipeContent" style="display:none">
+        <div class="recipe-top-bar">
+          <button id="backBtn" class="btn-back">← Back</button>
+          <button id="bookmarkBtn" class="bookmark-btn">🔖 Bookmark</button>
+        </div>
+        <div id="recipeHtml" class="recipe-body"></div>
+      </div>
+    </div>
+
+    <div id="tab-bookmarks" class="tab-panel">
+      <div class="empty-state" id="bookmarksEmpty" style="display:none">
+        Upload your recipe file to get started.
+      </div>
+      <div id="bookmarksContent">
+        <h2 class="section-heading">🔖 Bookmarks</h2>
+        <div id="bookmarksList"></div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-tab="index">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Index</span>
+    </button>
+    <button class="nav-btn" data-tab="search">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-label">Search</span>
+    </button>
+    <button class="nav-btn" data-tab="recipe">
+      <span class="nav-icon">🍽</span>
+      <span class="nav-label">Recipe</span>
+    </button>
+    <button class="nav-btn" data-tab="bookmarks">
+      <span class="nav-icon">🔖</span>
+      <span class="nav-label">Bookmarks</span>
+    </button>
+  </nav>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
