@@ -395,6 +395,33 @@ body {
   color: var(--text-muted);
 }
 
+.result-card-matched {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.match-line {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mark {
+  background: rgba(160, 98, 42, 0.18);
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
 /* ===================== RECIPE VIEWER ===================== */
 .recipe-top-bar {
   display: flex;

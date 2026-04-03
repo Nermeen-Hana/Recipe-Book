@@ -58,13 +58,20 @@ def parse_recipes():
         ingredients_text = ""
         in_ingredients = False
         for line in lines:
-            if re.match(r"#+\s*(Ingredients|ingredient)", line, re.IGNORECASE):
+            stripped = line.strip()
+            # Detect an ingredients heading in many formats:
+            # ## Ingredients, **Ingredients**, Ingredients:, ### 🥘 Ingredients, etc.
+            clean = re.sub(r"[#*_:`>~\U0001F300-\U0001FFFF]", "", stripped).strip()
+            if re.match(r"ingredients?\b", clean, re.IGNORECASE) and not in_ingredients:
                 in_ingredients = True
                 continue
             if in_ingredients:
-                if re.match(r"#+\s*", line) and line.strip() != "":
-                    heading_check = re.sub(r"#+\s*", "", line).strip()
-                    if heading_check and not re.match(r"(Ingredients|ingredient)", heading_check, re.IGNORECASE):
+                # Stop when we hit any non-ingredients section heading
+                is_md_heading = re.match(r"#+\s+\S", line)
+                is_bold_heading = re.match(r"\*\*[^*]+\*\*\s*$", stripped) and len(stripped) < 60
+                if is_md_heading or is_bold_heading:
+                    clean2 = re.sub(r"[#*_:`>~\U0001F300-\U0001FFFF]", "", stripped).strip()
+                    if not re.match(r"ingredients?\b", clean2, re.IGNORECASE):
                         break
                 ingredients_text += line + "\n"
 
@@ -119,8 +126,19 @@ def search_ingredient():
     recipes = parse_recipes()
     results = []
     for r in recipes:
-        if query in r["ingredients_text"].lower():
-            results.append({"number": r["number"], "title": r["title"], "tags": r["tags"]})
+        text = r["ingredients_text"]
+        if query in text.lower():
+            matched_lines = [
+                re.sub(r"^[\-\*\+]\s*", "", line).strip()
+                for line in text.split("\n")
+                if query in line.lower() and line.strip()
+            ]
+            results.append({
+                "number": r["number"],
+                "title": r["title"],
+                "tags": r["tags"],
+                "matched": matched_lines[:3],
+            })
     return jsonify(results)
 
 

@@ -234,15 +234,24 @@ async function doSearch() {
       results.innerHTML = `<div class="no-results">No recipes found with that ingredient.</div>`;
       return;
     }
-    results.innerHTML = data.map(rec => `
-      <div class="result-card" data-num="${rec.number}">
-        <span class="recipe-num">${rec.number}</span>
-        <div class="result-card-info">
-          <div class="result-card-title">${escHtml(rec.title)}</div>
-          <div class="result-card-tags">${escHtml(rec.tags || "")}</div>
+    results.innerHTML = data.map(rec => {
+      const matchedHtml = (rec.matched || []).map(m => {
+        const highlighted = escHtml(m).replace(
+          new RegExp(`(${escRegex(query)})`, "gi"),
+          `<mark>$1</mark>`
+        );
+        return `<span class="match-line">🔸 ${highlighted}</span>`;
+      }).join("");
+      return `
+        <div class="result-card" data-num="${rec.number}">
+          <span class="recipe-num">${rec.number}</span>
+          <div class="result-card-info">
+            <div class="result-card-title">${escHtml(rec.title)}</div>
+            ${matchedHtml ? `<div class="result-card-matched">${matchedHtml}</div>` : ""}
+          </div>
         </div>
-      </div>
-    `).join("");
+      `;
+    }).join("");
     results.querySelectorAll(".result-card").forEach(card => {
       card.addEventListener("click", () => openRecipe(parseInt(card.dataset.num)));
     });
@@ -372,6 +381,9 @@ function escHtml(str) {
 function escAttr(str) {
   if (!str) return "";
   return str.replace(/"/g, "&quot;");
+}
+function escRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /* ===================== INIT ===================== */
