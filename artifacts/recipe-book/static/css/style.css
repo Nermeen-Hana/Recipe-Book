@@ -2,18 +2,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #1a1a0e;
-  --surface: #252515;
-  --surface2: #2e2e18;
-  --border: #3a3a20;
-  --accent: #c8a44a;
-  --accent-soft: #e8c878;
-  --accent-bg: rgba(200,164,74,0.12);
-  --text: #f0e8d0;
-  --text-muted: #a09070;
-  --text-faint: #6a6045;
-  --green: #6a9e5a;
-  --red: #c05040;
+  --bg: #fdf6e8;
+  --surface: #fef9f0;
+  --surface2: #f7edd4;
+  --border: #e8d5a8;
+  --accent: #a0622a;
+  --accent-soft: #7a4520;
+  --accent-bg: rgba(160,98,42,0.08);
+  --text: #2c1a0e;
+  --text-muted: #7a5c3a;
+  --text-faint: #b89a70;
+  --green: #4a7c40;
+  --red: #b03a2c;
   --radius: 10px;
   --radius-sm: 6px;
   --nav-h: 68px;
@@ -75,7 +75,7 @@ body {
   align-items: center;
   gap: 6px;
   background: var(--accent);
-  color: #1a1a0e;
+  color: #fdf6e8;
   font-family: var(--font-ui);
   font-size: 0.85rem;
   font-weight: 700;
@@ -340,7 +340,7 @@ body {
 
 .search-box button {
   background: var(--accent);
-  color: #1a1a0e;
+  color: #fdf6e8;
   font-family: var(--font-ui);
   font-size: 0.9rem;
   font-weight: 700;
