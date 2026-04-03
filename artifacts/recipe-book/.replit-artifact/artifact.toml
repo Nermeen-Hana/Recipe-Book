@@ -13,7 +13,7 @@ paths = ["/"]
 PORT = "5000"
 
 [services.development]
-run = "gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload app:app"
+run = "gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload --chdir /home/runner/workspace/artifacts/recipe-book app:app"
 
 [services.production]
 
@@ -21,4 +21,4 @@ run = "gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload app:app"
 args = ["echo", "no-build"]
 
 [services.production.run]
-args = ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT --workers 2 app:app"]
+args = ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT --workers 2 --chdir /home/runner/workspace/artifacts/recipe-book app:app"]
