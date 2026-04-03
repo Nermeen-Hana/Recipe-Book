@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Nermeen's Recipe Book"
+version = "1.0.0"
+id = "recipe-book-flask-app"
+
+[[services]]
+localPort = 3000
+name = "Recipe Book"
+paths = ["/"]
+
+[services.env]
+PORT = "3000"
+
+[services.development]
+run = "python app.py"
+
+[services.production]
+
+[services.production.build]
+args = ["echo", "no-build"]
+
+[services.production.run]
+args = ["python", "app.py"]
+
+[services.production.run.env]
+PORT = "3000"
