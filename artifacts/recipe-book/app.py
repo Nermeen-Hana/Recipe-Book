@@ -28,6 +28,10 @@ def parse_recipes():
     with open(RECIPE_FILE, "r", encoding="utf-8") as f:
         content = f.read()
 
+    # Find all top-level # Section headers
+    section_pattern = re.compile(r"^#\s+(.+)$", re.MULTILINE)
+    section_matches = list(section_pattern.finditer(content))
+
     recipes = []
     pattern = re.compile(
         r"^(##\s+Recipe\s+(\d+)\s*[—\-–]\s*(.+?))$",
@@ -36,7 +40,15 @@ def parse_recipes():
     matches = list(pattern.finditer(content))
 
     for i, match in enumerate(matches):
-        heading_line = match.group(1)
+        # Determine which section this recipe falls under
+        recipe_pos = match.start()
+        current_section = ""
+        for sm in section_matches:
+            if sm.start() < recipe_pos:
+                current_section = sm.group(1).strip()
+            else:
+                break
+
         number = int(match.group(2))
         title = match.group(3).strip()
 
