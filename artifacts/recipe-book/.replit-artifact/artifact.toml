@@ -5,15 +5,15 @@ version = "1.0.0"
 id = "recipe-book-flask-app"
 
 [[services]]
-localPort = 3000
+localPort = 5000
 name = "Recipe Book"
 paths = ["/"]
 
 [services.env]
-PORT = "3000"
+PORT = "5000"
 
 [services.development]
-run = "python app.py"
+run = "gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload app:app"
 
 [services.production]
 
@@ -21,7 +21,7 @@ run = "python app.py"
 args = ["echo", "no-build"]
 
 [services.production.run]
-args = ["python", "app.py"]
+args = ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:app"]
 
 [services.production.run.env]
-PORT = "3000"
+PORT = "5000"
