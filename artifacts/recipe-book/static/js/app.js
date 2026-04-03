@@ -275,6 +275,7 @@ async function openRecipe(number) {
     const r = await fetch(`/api/recipe/${number}`);
     const data = await r.json();
     $("recipeHtml").innerHTML = data.html;
+    addCopyButtons($("recipeHtml"));
 
     // Bookmark state
     const isBookmarked = bookmarks.some(b => b.number === number || b.title === data.title);
@@ -367,6 +368,66 @@ async function loadBookmarks() {
       if (matching) await toggleBookmark(matching.number, title);
     });
   });
+}
+
+/* ===================== COPY BUTTONS ===================== */
+function addCopyButtons(container) {
+  container.querySelectorAll("h1, h2, h3, h4").forEach(h => {
+    const btn = document.createElement("button");
+    btn.className = "copy-section-btn";
+    btn.textContent = "Copy";
+    btn.title = "Copy this section";
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      copySection(h, btn);
+    });
+    h.appendChild(btn);
+  });
+}
+
+function copySection(headingEl, btn) {
+  const level = parseInt(headingEl.tagName[1]);
+
+  const headingText = Array.from(headingEl.childNodes)
+    .filter(n => !(n.nodeType === Node.ELEMENT_NODE && n.classList.contains("copy-section-btn")))
+    .map(n => n.textContent)
+    .join("").trim();
+
+  const parts = [headingText];
+
+  let sibling = headingEl.nextElementSibling;
+  while (sibling) {
+    const tag = sibling.tagName;
+    if (/^H[1-6]$/.test(tag) && parseInt(tag[1]) <= level) break;
+    const text = sibling.innerText || sibling.textContent || "";
+    if (text.trim()) parts.push(text.trim());
+    sibling = sibling.nextElementSibling;
+  }
+
+  const text = parts.join("\n\n");
+  const finish = () => {
+    btn.textContent = "✓ Copied";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(finish).catch(() => fallbackCopy(text, finish));
+  } else {
+    fallbackCopy(text, finish);
+  }
+}
+
+function fallbackCopy(text, finish) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.cssText = "position:fixed;top:-999px;left:-999px;opacity:0";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand("copy"); } catch (_) {}
+  document.body.removeChild(ta);
+  finish();
 }
 
 /* ===================== HELPERS ===================== */

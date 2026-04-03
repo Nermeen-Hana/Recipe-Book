@@ -481,6 +481,10 @@ mark {
   margin-bottom: 8px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .recipe-body h3, .recipe-body h4 {
@@ -491,6 +495,40 @@ mark {
   font-family: var(--font-ui);
   font-weight: 700;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.copy-section-btn {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-faint);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.copy-section-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.copy-section-btn.copied {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(74, 124, 64, 0.1);
 }
 
 .recipe-body p {
