@@ -9,6 +9,7 @@ id = "artifacts/mockup-sandbox"
 [deployment]
 router = "application"
 deploymentTarget = "autoscale"
+run = ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
@@ -30,13 +31,13 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python artifacts/recipe-book/app.py"
-waitForPort = 3000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gunicorn --bind 0.0.0.0:5000 --reuse-port --reload --chdir artifacts/recipe-book app:app"
+waitForPort = 5000
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -48,3 +49,4 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+packages = ["openssl", "postgresql"]
