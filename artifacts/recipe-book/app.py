@@ -45,7 +45,10 @@ def parse_recipes():
         current_section = ""
         for sm in section_matches:
             if sm.start() < recipe_pos:
-                current_section = sm.group(1).strip()
+                name = sm.group(1).strip()
+                # Strip "SECTION N — " prefix (e.g. "SECTION 1 — Breakfasts: Savory" → "Breakfasts: Savory")
+                name = re.sub(r'^SECTION\s+\d+\s*[—\-–]\s*', '', name).strip()
+                current_section = name
             else:
                 break
 
