@@ -53,6 +53,10 @@ function showFileInfo(filename) {
   area.style.display = "flex";
   $("filenameLabel").textContent = `📄 ${filename}`;
   fileUploaded = true;
+  $("searchContent").style.display = "block";
+  hide($("searchEmpty"));
+  $("bookmarksContent").style.display = "block";
+  hide($("bookmarksEmpty"));
   loadIndex();
   loadBookmarks();
 }
