@@ -111,6 +111,8 @@ body {
 }
 
 .btn-icon {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-ui);
   font-size: 0.8rem;
   font-weight: 600;
@@ -121,6 +123,7 @@ body {
   background: var(--surface2);
   color: var(--text-muted);
   transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .btn-icon:hover { color: var(--text); border-color: var(--accent); }
