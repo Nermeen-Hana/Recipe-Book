@@ -368,13 +368,16 @@ function copySection(headingEl, btn) {
 
   const parts = [headingText];
 
-  let sibling = headingEl.nextElementSibling;
-  while (sibling) {
-    const tag = sibling.tagName;
-    if (/^H[1-6]$/.test(tag) && parseInt(tag[1]) <= level) break;
-    const text = sibling.innerText || sibling.textContent || "";
-    if (text.trim()) parts.push(text.trim());
-    sibling = sibling.nextElementSibling;
+  // For h1/h2 (recipe title), copy only the heading text — not the whole recipe below
+  if (level > 2) {
+    let sibling = headingEl.nextElementSibling;
+    while (sibling) {
+      const tag = sibling.tagName;
+      if (/^H[1-6]$/.test(tag) && parseInt(tag[1]) <= level) break;
+      const text = sibling.innerText || sibling.textContent || "";
+      if (text.trim()) parts.push(text.trim());
+      sibling = sibling.nextElementSibling;
+    }
   }
 
   const text = parts.join("\n\n");

@@ -133,6 +133,7 @@ body {
   bottom: var(--nav-h);
   left: 0; right: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -408,9 +409,8 @@ body {
   color: var(--text-muted);
   font-style: italic;
   display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 mark {
@@ -473,6 +473,9 @@ mark {
   border-radius: var(--radius);
   padding: 22px 18px;
   line-height: 1.75;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .recipe-body h1, .recipe-body h2 {
