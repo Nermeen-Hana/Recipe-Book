@@ -91,6 +91,7 @@ def parse_recipes():
             "number": number,
             "title": title,
             "tags": tag_line,
+            "section": current_section,
             "ingredients_text": ingredients_text.strip(),
             "full_markdown": full_block,
         })
@@ -107,7 +108,7 @@ def index():
 def get_recipes():
     recipes = parse_recipes()
     return jsonify([
-        {"number": r["number"], "title": r["title"], "tags": r["tags"]}
+        {"number": r["number"], "title": r["title"], "tags": r["tags"], "section": r["section"]}
         for r in recipes
     ])
 

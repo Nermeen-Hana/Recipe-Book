@@ -116,12 +116,12 @@ $("removeFileBtn").addEventListener("click", async () => {
 });
 
 /* ===================== INDEX ===================== */
-const CATEGORIES = [
-  { key: "Breakfast", label: "🌅 Breakfast", icon: "🌅" },
-  { key: "Lunch",     label: "☀️ Lunch",     icon: "☀️" },
-  { key: "Sweet",     label: "🍰 Sweet",     icon: "🍰" },
-  { key: "Savory",    label: "🧂 Savory",    icon: "🧂" },
-  { key: "Husband",   label: "👨 Husband Only", icon: "👨" },
+const SECTIONS = [
+  "Breakfasts: Savory",
+  "Breakfasts: Sweet",
+  "Breakfasts: Breads, Bases & Baked Snacks",
+  "Lunches",
+  "Husband Only ⚠️",
 ];
 
 async function loadIndex() {
@@ -140,13 +140,13 @@ async function loadIndex() {
     }
 
     let html = "";
-    CATEGORIES.forEach(cat => {
-      const matches = allRecipes.filter(rec => rec.tags && rec.tags.includes(cat.key));
+    SECTIONS.forEach(sectionName => {
+      const matches = allRecipes.filter(rec => rec.section === sectionName);
       if (matches.length === 0) return;
       html += `
-        <div class="category-section" data-cat="${cat.key}">
+        <div class="category-section" data-cat="${escHtml(sectionName)}">
           <div class="category-header">
-            <span class="category-title">${cat.label}</span>
+            <span class="category-title">${escHtml(sectionName)}</span>
             <div style="display:flex;align-items:center;gap:8px">
               <span class="category-count">${matches.length}</span>
               <span class="chevron">▼</span>
@@ -163,33 +163,6 @@ async function loadIndex() {
         </div>
       `;
     });
-
-    // Uncategorized
-    const uncategorized = allRecipes.filter(rec => {
-      const tags = rec.tags || "";
-      return !CATEGORIES.some(cat => tags.includes(cat.key));
-    });
-    if (uncategorized.length > 0) {
-      html += `
-        <div class="category-section" data-cat="other">
-          <div class="category-header">
-            <span class="category-title">📌 Other</span>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="category-count">${uncategorized.length}</span>
-              <span class="chevron">▼</span>
-            </div>
-          </div>
-          <div class="category-body">
-            ${uncategorized.map(rec => `
-              <div class="recipe-link" data-num="${rec.number}">
-                <span class="recipe-num">${rec.number}</span>
-                <span class="recipe-title-text">${escHtml(rec.title)}</span>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-    }
 
     container.innerHTML = html;
 
