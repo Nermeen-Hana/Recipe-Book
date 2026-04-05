@@ -197,8 +197,8 @@ def upload_file():
     f = request.files["file"]
     if f.filename == "":
         return jsonify({"error": "No file selected"}), 400
-    if not f.filename.endswith(".md"):
-        return jsonify({"error": "Only .md files are accepted"}), 400
+    if not any(f.filename.lower().endswith(ext) for ext in [".md", ".txt", ".markdown"]):
+        return jsonify({"error": "Please upload a .md or .txt file"}), 400
     f.save(RECIPE_FILE)
     recipes = parse_recipes()
     return jsonify({"success": True, "count": len(recipes), "filename": f.filename})
