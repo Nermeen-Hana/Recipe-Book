@@ -91,7 +91,8 @@ $("fileInput").addEventListener("change", async (e) => {
     const r = await fetch("/api/upload", { method: "POST", body: formData });
     const data = await r.json();
     if (data.success) {
-      showFileInfo(file.name);
+      allRecipes = [];
+      await showFileInfo(file.name);
     } else {
       alert(data.error || "Upload failed");
     }
