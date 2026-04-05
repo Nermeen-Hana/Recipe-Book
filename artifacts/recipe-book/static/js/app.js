@@ -91,8 +91,7 @@ $("fileInput").addEventListener("change", async (e) => {
     const r = await fetch("/api/upload", { method: "POST", body: formData });
     const data = await r.json();
     if (data.success) {
-      allRecipes = [];
-      await showFileInfo(file.name);
+      window.location.reload();
     } else {
       alert(data.error || "Upload failed");
     }
@@ -102,16 +101,6 @@ $("fileInput").addEventListener("change", async (e) => {
   e.target.value = "";
 });
 
-$("updateBtn").addEventListener("click", async () => {
-  try {
-    await loadIndex();
-    await loadBookmarks();
-    $("updateBtn").textContent = "✓";
-    setTimeout(() => { $("updateBtn").textContent = "↻ Update"; }, 1500);
-  } catch (e) {
-    alert("Error updating: " + e.message);
-  }
-});
 
 $("removeFileBtn").addEventListener("click", async () => {
   if (!confirm("Remove the recipe file? This won't delete bookmarks.")) return;
