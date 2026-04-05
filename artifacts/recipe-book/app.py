@@ -6,6 +6,14 @@ from flask import Flask, request, jsonify, send_from_directory, abort
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
+@app.after_request
+def no_cache(response):
+    if request.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
+
 RECIPE_FILE = os.path.join(os.path.dirname(__file__), "recipe_book.md")
 BOOKMARKS_FILE = os.path.join(os.path.dirname(__file__), "bookmarks.json")
 
