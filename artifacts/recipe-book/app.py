@@ -199,8 +199,14 @@ def upload_file():
         return jsonify({"error": "No file selected"}), 400
     if not any(f.filename.lower().endswith(ext) for ext in [".md", ".txt", ".markdown"]):
         return jsonify({"error": "Please upload a .md or .txt file"}), 400
-    f.save(RECIPE_FILE)
-    recipes = parse_recipes()
+    try:
+        f.save(RECIPE_FILE)
+    except Exception as e:
+        return jsonify({"error": f"Failed to save file: {str(e)}"}), 500
+    try:
+        recipes = parse_recipes()
+    except Exception as e:
+        return jsonify({"error": f"Failed to parse file: {str(e)}"}), 500
     return jsonify({"success": True, "count": len(recipes), "filename": f.filename})
 
 
