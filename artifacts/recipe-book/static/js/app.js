@@ -273,18 +273,16 @@ function updateBookmarkBtn(isBookmarked) {
 }
 
 async function toggleBookmark(number, title) {
-  try {
-    const r = await fetch("/api/bookmark", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ number, title }),
-    });
-    const data = await r.json();
-    updateBookmarkBtn(data.bookmarked);
-    await loadBookmarks();
-  } catch (e) {
-    alert("Bookmark error: " + e.message);
+  const existing = bookmarks.find(b => b.title === title);
+  if (existing) {
+    bookmarks = bookmarks.filter(b => b.title !== title);
+    updateBookmarkBtn(false);
+  } else {
+    bookmarks.push({ number, title });
+    updateBookmarkBtn(true);
   }
+  saveBookmarksToStorage();
+  await loadBookmarks();
 }
 
 $("backBtn").addEventListener("click", () => {
@@ -292,13 +290,22 @@ $("backBtn").addEventListener("click", () => {
 });
 
 /* ===================== BOOKMARKS ===================== */
-async function loadBookmarks() {
+const BOOKMARKS_KEY = "recipe_bookmarks";
+
+function saveBookmarksToStorage() {
+  localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+}
+
+function loadBookmarksFromStorage() {
   try {
-    const r = await fetch("/api/bookmarks");
-    bookmarks = await r.json();
+    return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || "[]");
   } catch (e) {
-    bookmarks = [];
+    return [];
   }
+}
+
+async function loadBookmarks() {
+  bookmarks = loadBookmarksFromStorage();
 
   const list = $("bookmarksList");
 
