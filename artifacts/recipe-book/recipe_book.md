@@ -23,6 +23,24 @@
 
 ---
 
+> **📌 Categorization Rules (for Claude)**
+> When adding a new recipe, determine its section using these rules:
+>
+> **SECTION 1 — Breakfasts: Savory**
+> Egg dishes, scrambles, omelets, savory tuna plates, savory wraps, ful medames, savory rice paper rolls, any breakfast with no sweet profile.
+>
+> **SECTION 2 — Breakfasts: Sweet**
+> Pancakes, overnight oats, porridges, yogurt parfaits, custard puddings, mug cakes (Nermeen only), sweet rice paper rolls, any sweet breakfast with a protein focus.
+>
+> **SECTION 3 — Breakfasts: Breads, Bases & Baked Snacks**
+> Flatbreads, crêpes, baked oat cups/bars/muffins/squares, crackers. These are batch-cook items used as vessels or sides, sweet or savory.
+>
+> **SECTION 4 — Lunches**
+> Meat mains (chicken, beef, turkey, liver), stuffed peppers, stews, roasts. Any recipe tagged as a lunch or a full protein main.
+>
+> **SECTION 5 — Husband Only ⚠️**
+> Any recipe containing wheat flour, puff pastry, or regular bread dough. Not IBS-safe. Includes Fetir, puff pastry recipes, and any treat explicitly marked Husband Only.
+
 ---
 
 # SECTION 1 — Breakfasts: Savory
