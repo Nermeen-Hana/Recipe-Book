@@ -9,6 +9,10 @@ let fileUploaded = false;
 const $ = (id) => document.getElementById(id);
 const show = (el) => { el.style.display = ""; };
 const hide = (el) => { el.style.display = "none"; };
+const apiFetch = (url, opts) => {
+  const sep = url.includes("?") ? "&" : "?";
+  return fetch(`${url}${sep}_=${Date.now()}`, opts);
+};
 
 /* ===================== TAB NAVIGATION ===================== */
 function switchTab(tabName) {
@@ -33,7 +37,7 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
 /* ===================== FILE MANAGEMENT ===================== */
 async function checkFileStatus() {
   try {
-    const r = await fetch("/api/file-status");
+    const r = await apiFetch("/api/file-status");
     const data = await r.json();
     fileUploaded = data.uploaded;
     if (data.uploaded) {
@@ -131,7 +135,7 @@ async function loadIndex() {
   container.innerHTML = `<div class="loading">Loading recipes…</div>`;
 
   try {
-    const r = await fetch("/api/recipes");
+    const r = await apiFetch("/api/recipes");
     allRecipes = await r.json();
 
     if (allRecipes.length === 0) {
@@ -201,7 +205,7 @@ async function doSearch() {
   const results = $("searchResults");
   results.innerHTML = `<div class="loading">Searching…</div>`;
   try {
-    const r = await fetch(`/api/search?ingredient=${encodeURIComponent(query)}`);
+    const r = await apiFetch(`/api/search?ingredient=${encodeURIComponent(query)}`);
     const data = await r.json();
     if (data.length === 0) {
       results.innerHTML = `<div class="no-results">No recipes found with that ingredient.</div>`;
@@ -245,7 +249,7 @@ async function openRecipe(number) {
   $("recipeHtml").innerHTML = `<div class="loading">Loading recipe…</div>`;
 
   try {
-    const r = await fetch(`/api/recipe/${number}`);
+    const r = await apiFetch(`/api/recipe/${number}`);
     const data = await r.json();
     $("recipeHtml").innerHTML = data.html;
     addCopyButtons($("recipeHtml"));
